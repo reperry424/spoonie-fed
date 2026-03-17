@@ -590,7 +590,8 @@ async function callClaude(payload) {
   var parsed;
   try { parsed = JSON.parse(txt); }
   catch(e) { throw new Error('json_parse: '+txt.substring(0,200)); }
-  if(parsed.error) throw new Error(parsed.error.message||'api_error');
+  if(parsed.error) throw new Error('API error: '+JSON.stringify(parsed.error));
+  if(!parsed.content || !parsed.content[0]) throw new Error('Unexpected response: '+JSON.stringify(parsed).substring(0,200));
   return parsed;
 }
 
